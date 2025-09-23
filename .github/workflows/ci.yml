@@ -3,32 +3,68 @@ name: Python CI
 on: [push, pull_request]
 
 jobs:
-  build:
+  test:
+    name: Test Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ["3.10", "3.11"]
 
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Lint with black and isort
-        run: |
-          pip install black isort
-          isort . --check-only
-          black . --check
+    - name: Run linting with isort
+      run: |
+        pip install isort
+        isort . --check-only --diff
 
-      - name: Test with pytest
-        run: |
-          pip install pytest
-          pytest
+    - name: Run linting with black
+      run: |
+        pip install black
+        black . --check --diff
+
+    - name: Run tests with pytest
+      run: |
+        pip install pytest
+        pytest tests/ -v --cov=./ --cov-report=xml
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install safety
+
+    - name: Run security audit
+      run: |
+        safety check --full-report
