@@ -2,6 +2,20 @@
 
 A comprehensive Python framework for quantitative finance, featuring advanced options pricing models and equity factor backtesting systems.
 
+## 🏷️ Tech Stack
+
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
+![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-orange?logo=pandas)
+![NumPy](https://img.shields.io/badge/NumPy-Numerical%20Computing-blue?logo=numpy)
+![Jupyter](https://img.shields.io/badge/Jupyter-Notebooks-orange?logo=jupyter)
+![SciPy](https://img.shields.io/badge/SciPy-Scientific%20Computing-blue?logo=scipy)
+![StatsModels](https://img.shields.io/badge/StatsModels-Statistical%20Analysis-green)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-Visualization-blue?logo=matplotlib)
+![Plotly](https://img.shields.io/badge/Plotly-Interactive%20Viz-blue?logo=plotly)
+![yFinance](https://img.shields.io/badge/yFinance-Market%20Data-green)
+![pytest](https://img.shields.io/badge/pytest-Testing-orange?logo=pytest)
+
+
 ## 🎯 Project Features
 
 ### 1. Options Pricing Engine
