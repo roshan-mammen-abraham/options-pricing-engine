@@ -2,8 +2,6 @@
 
 A comprehensive Python framework for quantitative finance, featuring advanced options pricing models and equity factor backtesting systems.
 
-## 🏷️ Tech Stack
-
 ![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python)
 ![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-orange?logo=pandas)
 ![NumPy](https://img.shields.io/badge/NumPy-Numerical%20Computing-blue?logo=numpy)
