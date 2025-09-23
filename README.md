@@ -18,6 +18,7 @@ A comprehensive Python framework for quantitative finance, featuring advanced op
 - **Performance Analytics**: Comprehensive metrics and visualization
 
 ## 🗂 Repository Structure
+```
 options-pricing-engine/
 ├── pricing/               # Options pricing models
 │   ├── black_scholes.py
@@ -42,7 +43,7 @@ options-pricing-engine/
 ├── requirements.txt     # Python dependencies
 ├── README.md           # Project documentation
 └── .gitignore
-
+```
 
 ## ⚙️ Tech Stack
 
