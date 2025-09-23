@@ -1,75 +1,73 @@
-```
-# Quant Finance Milestone Project
+# Options Pricing Engine
 
-This repository contains a production-grade Python project for quantitative finance, combining an advanced options pricing engine and a comprehensive equity factor model backtesting system.
+A comprehensive Python framework for quantitative finance, featuring advanced options pricing models and equity factor backtesting systems.
 
 ## 🎯 Project Features
 
 ### 1. Options Pricing Engine
-- **Black-Scholes Model**: Closed-form pricing for European call and put options.
-- **Greeks**: Calculation of Delta, Gamma, Vega, Theta, and Rho.
-- **Monte Carlo Pricer**:
-    - Geometric Brownian Motion (GBM) path simulation.
-    - **Variance Reduction**: Implements Antithetic Variates and Control Variates (using Black-Scholes as the control).
-    - **Monte Carlo Greeks**: Calculated via the finite difference (bump-and-reprice) method.
-    - **Convergence Diagnostics**: Includes standard error and confidence intervals.
+- **Black-Scholes Model**: Closed-form pricing for European options
+- **Binomial Tree Model**: Discrete-time options pricing
+- **Greeks Calculation**: Delta, Gamma, Vega, Theta, and Rho risk metrics
+- **Monte Carlo Simulation**: Path-dependent options pricing with variance reduction techniques
 
 ### 2. Equity Factor Model Backtest
-- **Data Ingestion**: Fetches asset prices from Yahoo Finance and Fama-French/Carhart factors from the Ken French Data Library.
-- **Factor Modeling**: Performs rolling regressions for Fama-French 3-Factor and Carhart 4-Factor models.
-- **Signal Generation**: Generates trading signals based on factor exposures (e.g., momentum, alpha).
-- **Portfolio Construction**:
-    - Equal Weight
-    - Mean-Variance Optimization
-    - Risk Parity
-- **Backtest Engine**:
-    - Simulates portfolio performance with rebalancing logic.
-    - Accounts for transaction costs and turnover.
-    - Calculates key performance metrics (Annualized Return, Volatility, Sharpe Ratio, Max Drawdown).
-- **Performance Analytics**: Generates plots for rolling factor exposures and portfolio performance attribution.
+- **Data Pipeline**: Automated fetching of stock prices and Fama-French factors
+- **Factor Analysis**: Rolling regressions for Fama-French 3-Factor model
+- **Signal Generation**: Alpha-based trading signals from factor exposures
+- **Portfolio Backtesting**: Complete performance simulation with transaction costs
+- **Performance Analytics**: Comprehensive metrics and visualization
 
 ## 🗂 Repository Structure
+options-pricing-engine/
+├── pricing/               # Options pricing models
+│   ├── black_scholes.py
+│   ├── binomial.py
+│   └── monte_carlo.py
+├── backtest/             # Factor model backtesting
+│   ├── factors.py
+│   ├── portfolio.py
+│   ├── engine.py
+│   └── performance.py
+├── data/                 # Data management
+│   ├── fetch.py
+│   └── cache/           # Cached financial data
+├── notebooks/            # Jupyter notebooks for analysis
+│   └── factor_model_backtest.ipynb
+├── scripts/              # Execution scripts
+│   ├── fetch_data.py
+│   └── run_backtest.py
+├── tests/               # Test suite
+├── utils/               # Utility functions
+│   └── logging.py
+├── requirements.txt     # Python dependencies
+├── README.md           # Project documentation
+└── .gitignore
 
-```
-project-root/
-├─ pricing/                 # Options pricing engine modules
-├─ backtest/               # Factor model and backtesting modules
-├─ data/                   # Data fetching and caching
-├─ notebooks/              # Jupyter notebooks for demonstration and analysis
-├─ scripts/                # Standalone scripts for running tasks
-├─ tests/                  # Unit and integration tests
-├─ requirements.txt        # Project dependencies
-├─ pyproject.toml          # Project configuration (linting, formatting)
-├─ README.md               # This file
-└─ .github/workflows/      # GitHub Actions CI workflow
-```
 
 ## ⚙️ Tech Stack
 
-- **Core**: Python 3.10+
-- **Numerical & Data**: `numpy`, `pandas`, `scipy`, `statsmodels`
-- **Data Sources**: `yfinance`, `pandas-datareader`
-- **Plotting**: `matplotlib`, `plotly`
-- **Testing**: `pytest`
-- **Code Quality**: `black`, `isort`, `pre-commit`
-- **CI/CD**: GitHub Actions
+- **Python 3.10+** - Core programming language
+- **pandas & numpy** - Data manipulation and numerical computing
+- **scipy & statsmodels** - Statistical analysis and optimization
+- **yfinance** - Market data acquisition
+- **matplotlib & plotly** - Data visualization
+- **pytest** - Testing framework
 
-## 🚀 Getting Started
+## 🚀 Quick Start
 
-### 1. Clone the Repository
+### 1. Clone and Setup
 
 ```bash
 git clone https://github.com/timothykimutai/options-pricing-engine.git
 cd options-pricing-engine
 ```
 
-### 2. Set Up a Virtual Environment
-
-It's highly recommended to use a virtual environment.
+### 2. Create Virtual Environment
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate  # On Windows, use `.venv\Scripts\activate`
+source .venv/bin/activate  # Linux/Mac
+# .venv\Scripts\activate  # Windows
 ```
 
 ### 3. Install Dependencies
@@ -78,113 +76,95 @@ source .venv/bin/activate  # On Windows, use `.venv\Scripts\activate`
 pip install -r requirements.txt
 ```
 
-### 4. Set Up Pre-Commit Hooks (Optional but Recommended)
-
-This will automatically format your code before each commit.
-
-```bash
-pip install pre-commit
-pre-commit install
-```
-
-### 5. Run a Workflow
-
-#### Fetching Data
-
-First, you need to download the required financial data. The script saves it to the `data/cache/` directory.
+### 4. Fetch Market Data
 
 ```bash
 python scripts/fetch_data.py
 ```
 
-#### Running the Backtest
-
-Execute the factor model backtest using the cached data.
+### 5. Run Factor Model Backtest
 
 ```bash
 python scripts/run_backtest.py
 ```
 
-#### Running Tests
-
-To ensure everything is working correctly, run the test suite.
+### 6. Explore Analysis Notebooks
 
 ```bash
-pytest
+jupyter lab notebooks/
 ```
 
-#### Exploring Notebooks
+## 📊 Usage Examples
 
-Launch Jupyter and navigate to the `notebooks/` directory to explore the demonstrations.
+### Options Pricing
+
+```python
+from pricing.black_scholes import BlackScholes
+
+bs = BlackScholes()
+call_price = bs.price_call(S=100, K=105, T=1, r=0.05, sigma=0.2)
+print(f"Call option price: ${call_price:.2f}")
+```
+
+### Factor Backtesting
+
+```python
+from backtest.engine import run_backtest
+from data.fetch import fetch_stock_data, fetch_fama_french_factors
+
+# Load data
+stock_prices = fetch_stock_data(['AAPL', 'MSFT', 'GOOGL'], '2020-01-01', '2023-12-31')
+factors = fetch_fama_french_factors('2020-01-01', '2023-12-31')
+
+# Run backtest
+results = run_backtest(stock_prices, factors)
+```
+
+## 📈 Project Highlights
+
+- **Production-Ready Architecture**: Modular design with clear separation of concerns
+- **Comprehensive Testing**: Unit tests for all major components
+- **Real-World Data**: Integration with live market data sources
+- **Academic Rigor**: Implementation of proven financial models
+- **Extensible Framework**: Easy to add new models or strategies
+
+## 🧪 Testing
+
+Run the test suite to verify everything works correctly:
 
 ```bash
-jupyter lab
+pytest tests/ -v
 ```
-
-## ✅ Continuous Integration
-
-This project uses GitHub Actions for CI. The workflow automatically runs on every push and pull request to:
-
-- **Lint**: Check code formatting with black and isort.
-- **Test**: Run the entire test suite with pytest.
-
-This ensures code quality and correctness are maintained.
-
-## 📋 Dependencies
-
-The project's Python dependencies are listed in `requirements.txt`:
-
-```
-# Core numerical and data analysis libraries
-numpy>=1.23.0
-pandas>=1.5.0
-scipy>=1.9.0
-statsmodels>=0.13.0
-
-# Data fetching
-yfinance>=0.2.0
-requests>=2.28.0
-
-# Plotting
-matplotlib>=3.6.0
-plotly>=5.10.0
-
-# Testing and code quality
-pytest>=7.0.0
-black>=22.10.0
-isort>=5.10.0
-pre-commit>=2.20.0
-
-# Jupyter environment
-jupyterlab>=3.5.0
-ipykernel>=6.15.0
-```
-
-## 📊 Project Highlights
-
-- **Production-Ready Code**: Modular architecture with comprehensive testing
-- **Real Financial Data**: Integration with Yahoo Finance and academic factor data
-- **Advanced Modeling**: Implements both theoretical and numerical pricing methods
-- **Professional Backtesting**: Complete pipeline from data to performance analytics
-- **Extensible Design**: Easy to add new models, factors, or trading strategies
 
 ## 🤝 Contributing
 
+We welcome contributions! Please feel free to submit issues and pull requests.
+
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## 📚 Documentation
+
+- **Code Documentation**: All major functions include docstrings
+- **Example Notebooks**: See `notebooks/` for detailed usage examples
+- **Inline Comments**: Code is thoroughly commented for clarity
+
+## 🐛 Bug Reports
+
+If you encounter any bugs or have suggestions, please open an issue on GitHub.
+
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
-- Black, Scholes, and Merton for the foundational options pricing model
-- Fama and French for the factor modeling framework
+- Black, Scholes, and Merton for foundational options pricing theory
+- Fama and French for factor modeling framework
 - Yahoo Finance for providing free financial data
-- The Python quant finance community for excellent libraries and resources
-```
+- The Python quant finance community for excellent educational resources
 
+---
