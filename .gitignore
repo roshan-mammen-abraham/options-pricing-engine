@@ -1,0 +1,38 @@
+# --- Python Virtual Environments ---
+venv/
+env/
+.venv/
+.env/
+
+# --- Python Cache & Compiled Files ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Data & Cache ---
+data/cache/
+
+# --- Notebooks ---
+.ipynb_checkpoints/
+
+# --- IDE & Editor Folders ---
+.idea/
+.vscode/
+*.swp
+
+# --- OS-specific Files ---
+.DS_Store
+Thumbs.db
+._*
+
+# --- Build & Distribution ---
+build/
+dist/
+*.egg-info/
+*.egg
+
+# --- Generated Output Files ---
+*.png
+*.html
+*.log
